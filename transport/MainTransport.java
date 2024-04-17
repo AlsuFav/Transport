@@ -19,32 +19,20 @@ public class MainTransport {
         TrasportDataBase dataBase =
                 mapper.readValue(new File("C:\\Users\\182\\IdeaProjects\\Transport\\src\\main\\java\\transport\\transport.json"), TrasportDataBase.class);
 
-        // 1
+        // 1 Определить какой транспорт есть в базе данных
         Set<String> vehicleTypes = dataBase.getData().getVehicles().stream()
                 .map(n -> n.getProperties().getVehicleMetaData().getTransport().getType())
                 .collect(Collectors.toSet());
         System.out.println(vehicleTypes);
 
-        // 2
+        // 2 Определить количество транспорта определенного маршрута на линии
         long number = dataBase.getData().getVehicles().stream()
                 .filter(v -> v.getProperties().getVehicleMetaData().getTransport().getName().equals("47") &&
                        v.getProperties().getVehicleMetaData().getTransport().getType().equals("bus"))
                 .count();
         System.out.println(number);
 
-//        List<String> routes = dataBase.getData().getVehicles().stream()
-//                .map(vehicle -> vehicle.getProperties().getVehicleMetaData().getTransport().getName())
-//                .distinct().toList();
-//
-//        for (String route : routes) {
-//            long count = dataBase.getData().getVehicles().stream()
-//                    .filter(v -> v.getProperties().getVehicleMetaData().getTransport().getName().equals(route))
-//                    .count();
-//
-//            System.out.println("Количество транспорта на маршруте " + route + ": " + count);
-//        }
-
-        //3. Создать Map<>  , показывающий транспортное средство и количество сообщений о своих координатах
+        //3. Создать Map<>, показывающий транспортное средство и количество сообщений о своих координатах
 
         dataBase.getData().getVehicles().stream().collect(Collectors.toMap(
                 v -> v.getProperties().getVehicleMetaData().getId(),
